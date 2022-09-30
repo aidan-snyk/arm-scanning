@@ -1,0 +1,22 @@
+trigger: 
+- master
+
+pool:
+  vmImage: "ubuntu-16.04"
+
+
+stages:
+- stage: Build
+  displayName: Creating or Updating Fugue Environment
+  jobs:
+  - job: BuildJob
+    steps:
+    - bash: sh create_update.sh
+
+- stage: Baseline
+  displayName: Set Environment Baseline
+  dependsOn: Build
+  jobs:
+  - job: BaselineJob
+    steps:
+    - bash: sh setbaseline.sh
